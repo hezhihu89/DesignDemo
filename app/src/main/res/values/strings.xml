@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DesignDemo</string>
+    <string name="tip_password">输入密码</string>
+    <string name="tip_userName">用户名</string>
+    <string name="drawer_open">打开</string>
+    <string name="drawer_close">关闭</string>
+</resources>
