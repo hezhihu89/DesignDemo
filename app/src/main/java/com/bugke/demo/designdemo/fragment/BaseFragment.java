@@ -11,12 +11,16 @@ import android.view.ViewGroup;
  * Created by Hezhihu89 on 2016/10/20 0020.
  */
 
-public abstract class BaseFragment extends Fragment implements RootLayout{
+public abstract class BaseFragment extends Fragment implements RootLayout {
 
     private RootLayout mRootView;
 
-    public static class Pamans{
-      public static final  String TILE = "title";
+    protected String TITLE;
+    protected String URL;
+
+    public static class Pamans {
+        public static final String TITLE = "title";
+        public static final String URL = "url";
     }
 
     @Nullable
@@ -25,31 +29,39 @@ public abstract class BaseFragment extends Fragment implements RootLayout{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parsArguments();
         mRootView = getCreateView();
+    }
+
+    protected abstract void getData();
+
+    protected void parsArguments() {
+        Bundle arguments = getArguments();
+        TITLE = arguments.getString(Pamans.TITLE);
+        URL = arguments.getString(Pamans.URL);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(mRootView != null){
-           // mRootView.showLoading();
+        if (mRootView != null) {
+            // mRootView.showLoading();
             mRootView.showSuccess();
-           ViewGroup parent =  mRootView.getParents();
-            if(null != parent){
-                  parent.removeView((View) mRootView);
+            ViewGroup parent = mRootView.getParents();
+            if (null != parent) {
+                parent.removeView((View) mRootView);
             }
         }
+        getData();
         return (View) mRootView;
 
     }
 
 
 
-
-
     @Override
     public void showLoading() {
-       mRootView.showLoading();
+        mRootView.showLoading();
     }
 
     @Override
@@ -59,7 +71,7 @@ public abstract class BaseFragment extends Fragment implements RootLayout{
 
     @Override
     public void showError() {
-       mRootView.showError();
+        mRootView.showError();
     }
 
     @Override

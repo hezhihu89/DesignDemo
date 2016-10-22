@@ -4,33 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:id="@+id/item"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="10dp"
     app:contentPadding="10dp">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
-    <ImageView
-        android:id="@+id/item_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:src="@mipmap/ic_launcher" />
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="title"
+            android:textColor="#c8002bd7"
+            android:textSize="18dp" />
 
 
-    <TextView
-        android:id="@+id/item_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="test"
-        android:textSize="25dp" />
+        <TextView
+            android:id="@+id/item_text"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_title"
+            android:text="test"
+            android:textSize="16dp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

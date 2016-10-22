@@ -21,7 +21,12 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements PageAdapter{
 
-    private static final String[] PAGES = new String[]{"新闻","IT","开发","天气","福利"};
+    private static final String[][] PAGES = new String[][]{{"Android","http://p.codekk.com/api/op/page/1?type=mix"},
+            {"iOS","http://p.codekk.com/api/op/page/1?type=mix"},
+            {"新闻","http://p.codekk.com/api/op/page/1?type=mix"},
+            {"天气","http://p.codekk.com/api/op/page/1?type=mix"},
+            {"福利","http://p.codekk.com/api/op/page/1?type=mix"},
+            {"学习","http://p.codekk.com/api/op/page/1?type=mix"}};
 
     TabLayout mTabLayout;
 
@@ -98,12 +103,12 @@ public class MainActivity extends BaseActivity implements PageAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentPage.newInstance(PAGES[position]);
+        return FragmentPage.newInstance(PAGES[position][0],PAGES[position][1]);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return PAGES[position];
+        return PAGES[position][0];
     }
 
     @Override
