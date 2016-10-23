@@ -1,7 +1,5 @@
 package com.bugke.demo.designdemo.bean;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,8 +7,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.chad.library.adapter.base.listener.SimpleClickListener.TAG;
 
 /**
  * Created by Hezhihu89 on 2016/10/22 0022.
@@ -62,7 +58,6 @@ public class AndroidBean{
         mList.add(projectDate);
 
         JSONArray jsonArray = projectDateMap.getJSONArray(strs);
-        Log.d(TAG, "parsData1: " + jsonArray.toString());
         for(int i = 0;i<jsonArray.length();i++){
 
             JSONObject jsonObject  = (JSONObject) jsonArray.get(i);

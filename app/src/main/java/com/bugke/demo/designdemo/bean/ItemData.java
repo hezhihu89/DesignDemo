@@ -1,8 +1,5 @@
 package com.bugke.demo.designdemo.bean;
 
-import android.util.Log;
-
-
 public class ItemData {
 private static final String TAG = ItemData.class.getSimpleName();
         String id;
@@ -12,7 +9,6 @@ private static final String TAG = ItemData.class.getSimpleName();
         String desc;
 
         public ItemData(String id, String projectName, String projectUrl, String createTime, String desc) {
-                Log.d(TAG, "ItemData: =============== url :" +projectUrl );
                 this.id = id;
                 this.projectName = projectName;
                 this.projectUrl = projectUrl;

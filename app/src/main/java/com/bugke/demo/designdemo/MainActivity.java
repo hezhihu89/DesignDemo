@@ -16,17 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bugke.demo.designdemo.fragment.FragmentPage;
+import com.bugke.demo.designdemo.fragment.NewFragment;
 
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements PageAdapter{
+public class MainActivity extends BaseActivity implements PageAdapter {
 
-    private static final String[][] PAGES = new String[][]{{"Android","http://p.codekk.com/api/op/page/1?type=mix"},
-            {"iOS","http://p.codekk.com/api/op/page/1?type=mix"},
-            {"新闻","http://p.codekk.com/api/op/page/1?type=mix"},
-            {"天气","http://p.codekk.com/api/op/page/1?type=mix"},
-            {"福利","http://p.codekk.com/api/op/page/1?type=mix"},
-            {"学习","http://p.codekk.com/api/op/page/1?type=mix"}};
+    private static final String[][] PAGES = new String[][]{{"Android", "http://p.codekk.com/api/op/page/1?type=mix"},
+            {"iOS", "http://p.codekk.com/api/op/page/2?type=mix"},
+            {"新闻", "http://3g.163.com/touch/reconstruct/article/list/BA10TA81wangning/"},
+            {"天气", "http://p.codekk.com/api/op/page/4?type=mix"},
+            {"福利", "http://p.codekk.com/api/op/page/5?type=mix"},
+            {"学习", "http://p.codekk.com/api/op/page/6?type=mix"}};
 
     TabLayout mTabLayout;
 
@@ -62,12 +63,12 @@ public class MainActivity extends BaseActivity implements PageAdapter{
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Snackbar snackbar = Snackbar.make(view, "提示文本", Snackbar.LENGTH_LONG );
+                final Snackbar snackbar = Snackbar.make(view, "提示文本", Snackbar.LENGTH_LONG);
                 snackbar.show();
                 snackbar.setAction("按钮title", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Snackbar snackbar1 = Snackbar.make(v, "第二个", Snackbar.LENGTH_LONG );
+                        Snackbar snackbar1 = Snackbar.make(v, "第二个", Snackbar.LENGTH_LONG);
                         snackbar1.show();
                         snackbar1.setAction("提示", new View.OnClickListener() {
                             @Override
@@ -82,12 +83,12 @@ public class MainActivity extends BaseActivity implements PageAdapter{
 
         mViewpage = (ViewPager) findViewById(R.id.Viewpage);
 
-        MyAdapter adapter = new MyAdapter(getSupportFragmentManager(),this);
+        MyAdapter adapter = new MyAdapter(getSupportFragmentManager(), this);
         mViewpage.setAdapter(adapter);
         mViewpage.setOffscreenPageLimit(PAGES.length);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mTabLayout.setTabTextColors(Color.BLACK,getResources().getColor(R.color.colorAccent));
+        mTabLayout.setTabTextColors(Color.BLACK, getResources().getColor(R.color.colorAccent));
         mTabLayout.setupWithViewPager(mViewpage);
 
     }
@@ -103,7 +104,16 @@ public class MainActivity extends BaseActivity implements PageAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentPage.newInstance(PAGES[position][0],PAGES[position][1]);
+        Fragment fragment;
+        switch (position) {
+            case 2:
+                fragment = NewFragment.newInstance(PAGES[position][0], PAGES[position][1]);
+                break;
+            default:
+                fragment = FragmentPage.newInstance(PAGES[position][0], PAGES[position][1]);
+                break;
+        }
+        return fragment;
     }
 
     @Override

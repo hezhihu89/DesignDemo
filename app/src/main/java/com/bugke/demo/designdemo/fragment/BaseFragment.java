@@ -52,6 +52,7 @@ public abstract class BaseFragment extends Fragment implements RootLayout {
                 parent.removeView((View) mRootView);
             }
         }
+        showLoading();
         getData();
         return (View) mRootView;
 
