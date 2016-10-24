@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by Hezhihu89 on 2016/10/20 0020.
  */
 
-public abstract class BaseFragment extends Fragment implements RootLayout {
+public abstract class BaseFragment extends Fragment implements RootLayout, com.bugke.demo.designdemo.fragment.Fragment{
 
     private RootLayout mRootView;
 
@@ -78,5 +78,10 @@ public abstract class BaseFragment extends Fragment implements RootLayout {
     @Override
     public ViewGroup getParents() {
         return mRootView.getParents();
+    }
+
+    @Override
+    public void scrollTop() {
+
     }
 }

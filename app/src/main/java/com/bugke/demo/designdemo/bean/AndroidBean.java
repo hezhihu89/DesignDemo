@@ -24,6 +24,9 @@ public class AndroidBean{
     public AndroidBean(String body) {
         parsData(body);
     }
+    public void parsDatas(String body){
+        parsData(body);
+    }
 
     private void parsData(String str) {
 

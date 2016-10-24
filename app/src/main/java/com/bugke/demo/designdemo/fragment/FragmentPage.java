@@ -23,14 +23,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
+ * "http://p.codekk.com/api/op/page/0?type=mix"
  * Created by Hezhihu89 on 2016/10/20 0020.
  */
 
-public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener{
 
     private OkHttpClient mOkHttpClient;
     private BaseAdapter mAdapter;
-
+    private int mCurrentPage = 0;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private AndroidBean androidBean;
 
     public static BaseFragment newInstance(String... egs) {
         Bundle bundle = new Bundle();
@@ -46,7 +49,7 @@ public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnR
     public RootLayout getCreateView() {
 
         EmptyLayout emptyLayout = new EmptyLayout(getContext());
-        SwipeRefreshLayout swipeRefreshLayout = new SwipeRefreshLayout(getContext());
+        swipeRefreshLayout = new SwipeRefreshLayout(getContext());
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         RecyclerView recyclerView = new RecyclerView(getContext());
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -54,23 +57,26 @@ public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnR
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mAdapter = new BaseAdapter(null);
         mAdapter.isFirstOnly(false);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        mAdapter.setOnLoadMoreListener(this);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerView.setAdapter(mAdapter);
         swipeRefreshLayout.addView(recyclerView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         emptyLayout.bindView(swipeRefreshLayout);
         return emptyLayout;
     }
 
-    @Override
-    protected void getData() {
-        refrash();
+    public void getData(int mCurrentPage){
+        this.mCurrentPage = mCurrentPage;
+        getData();
     }
 
 
-    private void refrash() {
-        showLoading();
+    @Override
+    protected void getData() {
+
         mOkHttpClient =new OkHttpClient();
-        Request.Builder requestBuilder = new Request.Builder().url(URL);
+
+        Request.Builder requestBuilder = new Request.Builder().url(URL+mCurrentPage+"?type=mix");
         //可以省略，默认是GET请求
         requestBuilder.method("GET",null);
         Request request = requestBuilder.build();
@@ -88,11 +94,18 @@ public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnR
                 } else {
                     String str = response.body().string();
                     Log.i("wangshu", "network---" + str);
-                    final AndroidBean androidBean = new AndroidBean(str);
+                    if(null == androidBean){
+                        androidBean = new AndroidBean(str);
+                    }else{
+                        androidBean.parsDatas(str);
+                    }
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.setNewData(androidBean.mList);
+                            swipeRefreshLayout.setRefreshing(false);
+                            mAdapter.hiedLoadingMore();
                             showSuccess();
                         }
                     });
@@ -104,9 +117,16 @@ public class FragmentPage extends BaseFragment implements SwipeRefreshLayout.OnR
 
 
 
+
+
     @Override
     public void onRefresh() {
-
+       getData(0);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+       getData(mCurrentPage+=1);
+    }
 }

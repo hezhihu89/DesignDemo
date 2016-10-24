@@ -36,6 +36,7 @@ public class NewFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private int currentItem = 10;
     private NewBean newBean;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView mRecyclerView;
 
     public static BaseFragment newInstance(String... egs) {
         Bundle bundle = new Bundle();
@@ -53,16 +54,16 @@ public class NewFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
         swipeRefreshLayout = new SwipeRefreshLayout(getContext());
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
-        RecyclerView recyclerView = new RecyclerView(getContext());
+        mRecyclerView = new RecyclerView(getContext());
         swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new NewsAdapter(null);
         mAdapter.isFirstOnly(false);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mAdapter.setOnLoadMoreListener(this);
-        recyclerView.setAdapter(mAdapter);
-        swipeRefreshLayout.addView(recyclerView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRecyclerView.setAdapter(mAdapter);
+        swipeRefreshLayout.addView(mRecyclerView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         emptyLayout.bindView(swipeRefreshLayout);
         return emptyLayout;
     }
@@ -121,5 +122,10 @@ public class NewFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onLoadMoreRequested() {
         getData(currentItem+10);
+    }
+
+    @Override
+    public void scrollTop() {
+        mRecyclerView.scrollToPosition(0);
     }
 }
